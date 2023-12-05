@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { fetchSearchMovies } from '../services/moviesApi';
+import { fetchSearchMovies } from '../../services/moviesApi';
 import { Link, Outlet, useLocation, useSearchParams } from 'react-router-dom';
+import { StyledUl } from './movies.styled';
 
-export const Movies = () => {
+const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const movieName = searchParams.get('movieName');
@@ -25,16 +26,17 @@ export const Movies = () => {
         <input type="text" name="movieName" />
         <button type="submit">Search</button>
       </form>
-      <ul>
+      <StyledUl>
         {movies.map(movie => (
           <li key={movie.id}>
-            <Link to={movie.id} state={{ from: location }}>
+            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
               {movie.title}
             </Link>
           </li>
         ))}
-      </ul>
+      </StyledUl>
       <Outlet />
     </>
   );
 };
+export default Movies;

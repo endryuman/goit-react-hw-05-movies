@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchMovieById } from '../services/moviesApi';
+import { fetchMovieById } from '../../services/moviesApi';
 import {
   Link,
   NavLink,
@@ -7,12 +7,13 @@ import {
   useLocation,
   useParams,
 } from 'react-router-dom';
+import { StyledDiv, StyledUl } from './movieDetails.styled';
 
 const basePosterPath = 'https://image.tmdb.org/t/p/w500';
 const defaultImg =
   'https://ireland.apollo.olxcdn.com/v1/files/0iq0gb9ppip8-UA/image;s=1000x700';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const [movie, setMovie] = useState('');
   const { id } = useParams();
   const location = useLocation();
@@ -34,7 +35,7 @@ export const MovieDetails = () => {
     <>
       <Link to={backLink}>Go back</Link>
 
-      <div>
+      <StyledDiv>
         {
           <img
             src={
@@ -47,9 +48,9 @@ export const MovieDetails = () => {
           />
         }
         <div>
-          <h2>{movie.original_title}</h2>
-          <p>User Score: {Math.round(movie.vote_average * 10)}%</p>
-          <ul>
+          <h2>{movie.title}</h2>
+          <p>User Score: {Math.round(movie.vote_average)}</p>
+          <StyledUl>
             {movie.overview && (
               <li>
                 <h3>Overview</h3>
@@ -60,20 +61,20 @@ export const MovieDetails = () => {
               {movie.genres && movie.genres.length > 0 && (
                 <div>
                   <h4>Genres</h4>
-                  <ul>
+                  <StyledUl>
                     {movie.genres.map(genre => (
                       <li key={genre.id}>{genre.name}</li>
                     ))}
-                  </ul>
+                  </StyledUl>
                 </div>
               )}
             </li>
-          </ul>
+          </StyledUl>
         </div>
-      </div>
+      </StyledDiv>
       <div>
         <h2>Additional information</h2>
-        <ul>
+        <StyledUl>
           <li>
             <NavLink state={location.state} to="cast">
               Cast
@@ -84,9 +85,10 @@ export const MovieDetails = () => {
               Review
             </NavLink>
           </li>
-        </ul>
+        </StyledUl>
         <Outlet />
       </div>
     </>
   );
 };
+export default MovieDetails;

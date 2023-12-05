@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { fetchTrendingMovies } from 'services/moviesApi';
+import { StyledUl } from './homePage.styled';
 
-export const Homepage = () => {
+const Homepage = () => {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
 
@@ -13,15 +14,16 @@ export const Homepage = () => {
   return (
     <>
       <div>Trending today</div>
-      <ul>
+      <StyledUl>
         {movies.map(movie => (
           <li key={movie.id}>
-            <Link to={movie.id} state={{ from: location }}>
+            <Link to={`/movies/${movie.id}`} state={{ from: location }}>
               {movie.title}
             </Link>
           </li>
         ))}
-      </ul>
+      </StyledUl>
     </>
   );
 };
+export default Homepage;
